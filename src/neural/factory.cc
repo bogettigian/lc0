@@ -46,6 +46,9 @@ const OptionId NetworkFactory::kBackendOptionsId{
     "Parameters of neural network backend. "
     "Exact parameters differ per backend.",
     'o'};
+const OptionId NetworkFactory::kElo{
+    "elo", "Elo",
+    "Used to limit the engine strength."};
 const char* kAutoDiscover = "<autodiscover>";
 
 NetworkFactory* NetworkFactory::Get() {
@@ -64,6 +67,7 @@ void NetworkFactory::PopulateOptions(OptionsParser* options) {
   options->Add<ChoiceOption>(NetworkFactory::kBackendId, backends) =
       backends.empty() ? "<none>" : backends[0];
   options->Add<StringOption>(NetworkFactory::kBackendOptionsId);
+  options->Add<IntOption>(kElo, 0, 10000) = 0;
 }
 
 void NetworkFactory::RegisterNetwork(const std::string& name,
@@ -108,6 +112,10 @@ std::unique_ptr<Network> NetworkFactory::LoadNetwork(
   const std::string backend = options.Get<std::string>(kBackendId.GetId());
   const std::string backend_options =
       options.Get<std::string>(kBackendOptionsId.GetId());
+
+  int elo = options.Get<int>(kElo.GetId());
+  const std::string elo_str = "elo=" + std::to_string(elo);
+  putenv(elo_str.c_str());
 
   if (net_path == kAutoDiscover) {
     net_path = DiscoverWeightsFile();

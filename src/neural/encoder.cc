@@ -40,7 +40,7 @@ const int kAuxPlaneBase = kPlanesPerBoard * kMoveHistory;
 InputPlanes EncodePositionForNN(const PositionHistory& history,
                                 int history_planes,
                                 FillEmptyHistory fill_empty_history) {
-  InputPlanes result(kAuxPlaneBase + 8);
+  InputPlanes result(kAuxPlaneBase + 9);
 
   {
     const ChessBoard& board = history.Last().GetBoard();
@@ -52,8 +52,10 @@ InputPlanes EncodePositionForNN(const PositionHistory& history,
     if (we_are_black) result[kAuxPlaneBase + 4].SetAll();
     result[kAuxPlaneBase + 5].Fill(history.Last().GetNoCaptureNoPawnPly());
     // Plane kAuxPlaneBase + 6 used to be movecount plane, now it's all zeros.
-    // Plane kAuxPlaneBase + 7 is all ones to help NN find board edges.
-    result[kAuxPlaneBase + 7].SetAll();
+    result[kAuxPlaneBase + 7].Fill(strtof(std::getenv("elo"),
+                                          (char**)NULL));
+    // Plane kAuxPlaneBase + 8 is all ones to help NN find board edges.
+    result[kAuxPlaneBase + 8].SetAll();
   }
 
   bool flip = false;

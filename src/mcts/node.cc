@@ -358,6 +358,9 @@ V4TrainingData Node::GetV4TrainingData(GameResult game_result,
   result.root_d = GetD();
   result.best_d = best_d;
 
+  // Elo.
+  result.elo = 0;
+
   return result;
 }
 
