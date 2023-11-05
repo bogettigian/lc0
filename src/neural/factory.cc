@@ -115,7 +115,7 @@ std::unique_ptr<Network> NetworkFactory::LoadNetwork(
 
   int elo = options.Get<int>(kElo.GetId());
   const std::string elo_str = "elo=" + std::to_string(elo);
-  putenv(elo_str.c_str());
+  putenv(const_cast<char*>(elo_str.c_str()));
 
   if (net_path == kAutoDiscover) {
     net_path = DiscoverWeightsFile();
