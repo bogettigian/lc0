@@ -53,7 +53,7 @@ InputPlanes EncodePositionForNN(const PositionHistory& history,
     result[kAuxPlaneBase + 5].Fill(history.Last().GetNoCaptureNoPawnPly());
     if (std::getenv("elo"))
       result[kAuxPlaneBase + 6].Fill(strtof(std::getenv("elo"),
-                                            (char**)NULL)/4000);
+                                            (char**)NULL)/400);
     // Plane kAuxPlaneBase + 7 used to be movecount plane, now it's all zeros.
     // Plane kAuxPlaneBase + 8 is all ones to help NN find board edges.
     result[kAuxPlaneBase + 8].SetAll();
