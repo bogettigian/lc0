@@ -28,6 +28,7 @@
 #include "neural/encoder.h"
 #include <algorithm>
 #include "utils/optional.h"
+#include <iostream>
 
 namespace lczero {
 
