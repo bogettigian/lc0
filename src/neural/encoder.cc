@@ -51,9 +51,18 @@ InputPlanes EncodePositionForNN(const PositionHistory& history,
     if (board.castlings().they_can_00()) result[kAuxPlaneBase + 3].SetAll();
     if (we_are_black) result[kAuxPlaneBase + 4].SetAll();
     result[kAuxPlaneBase + 5].Fill(history.Last().GetNoCaptureNoPawnPly());
+    std::cout << "rule50: "
+              << std::to_string(history.Last().GetNoCaptureNoPawnPly())
+              << std::endl;
     if (std::getenv("elo"))
       result[kAuxPlaneBase + 6].Fill(strtof(std::getenv("elo"),
                                             (char**)NULL)/400);
+    std::cout << "Elo normalized: "
+              << std::to_string(strtof(std::getenv("elo"),(char**)NULL)/400)
+              << std::endl;
+    std::cout << "Elo not normalized: "
+              << std::to_string(strtof(std::getenv("elo"),(char**)NULL))
+              << std::endl;
     // Plane kAuxPlaneBase + 7 used to be movecount plane, now it's all zeros.
     // Plane kAuxPlaneBase + 8 is all ones to help NN find board edges.
     result[kAuxPlaneBase + 8].SetAll();
