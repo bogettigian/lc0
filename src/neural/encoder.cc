@@ -52,6 +52,11 @@ InputPlanes EncodePositionForNN(const PositionHistory& history,
     if (board.castlings().they_can_00()) result[kAuxPlaneBase + 3].SetAll();
     if (we_are_black) result[kAuxPlaneBase + 4].SetAll();
     result[kAuxPlaneBase + 5].Fill(history.Last().GetNoCaptureNoPawnPly());
+
+    std::cerr << "Working" << "\n";
+    if (std::getenv("elo") == NULL) std::cerr << "READING ELO NULL" << "\n";
+
+    std::cerr << "READING ELO: " std::getenv("elo") << "\n";
     if (std::getenv("elo")) {
       result[kAuxPlaneBase + 6].Fill(
           strtof(std::getenv("elo"), (char**)NULL) / 400);
