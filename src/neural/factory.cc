@@ -117,7 +117,7 @@ std::unique_ptr<Network> NetworkFactory::LoadNetwork(
   std::cerr << "Param Elo: " << std::to_string(elo) << "\n";
   const std::string elo_str = "elo=" + std::to_string(elo);
   std::cerr << "Setup Elo: " << elo_str << "\n";
-  setenv("elo", std::to_string(elo), true);
+  setenv("elo", const_cast<char*>(std::to_string(elo).c_str()), true);
   std::cerr << "Read string Elo: " << std::getenv("elo") << "\n";
   std::cerr << "Read float Elo: "
             << std::to_string(strtof(std::getenv("elo"), (char**)NULL))
