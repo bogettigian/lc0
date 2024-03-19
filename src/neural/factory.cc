@@ -116,8 +116,12 @@ std::unique_ptr<Network> NetworkFactory::LoadNetwork(
   int elo = options.Get<int>(kElo.GetId());
   std::cerr << "Param Elo: " << std::to_string(elo) << "\n";
   const std::string elo_str = "elo=" + std::to_string(elo);
+  std::cerr << "Setup Elo: " << elo_str << "\n";
   putenv(const_cast<char*>(elo_str.c_str()));
-  std::cerr << "Set Elo: " << elo_str << "\n";
+  std::cerr << "Read string Elo: " << std::getenv("elo") << "\n";
+  std::cerr << "Read float Elo: "
+            << std::to_string(strtof(std::getenv("elo"), (char**)NULL))
+            << "\n";
 
   if (net_path == kAutoDiscover) {
     net_path = DiscoverWeightsFile();
